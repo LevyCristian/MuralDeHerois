@@ -13,6 +13,7 @@
 		D77243A3222DE528008920EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77243A1222DE528008920EF /* Main.storyboard */; };
 		D77243A5222DE52A008920EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D77243A4222DE52A008920EF /* Assets.xcassets */; };
 		D77243A8222DE52A008920EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77243A6222DE52A008920EF /* LaunchScreen.storyboard */; };
+		D77243F8222DF163008920EF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77243F7222DF163008920EF /* Camera.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D77243A4222DE52A008920EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D77243A7222DE52A008920EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D77243A9222DE52A008920EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D77243F7222DF163008920EF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		D7724396222DE528008920EF /* MuralDeHerois */ = {
 			isa = PBXGroup;
 			children = (
+				D77243F7222DF163008920EF /* Camera.swift */,
 				D7724397222DE528008920EF /* AppDelegate.swift */,
 				D772439D222DE528008920EF /* GameScene.swift */,
 				D772439F222DE528008920EF /* GameViewController.swift */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D77243F8222DF163008920EF /* Camera.swift in Sources */,
 				D772439E222DE528008920EF /* GameScene.swift in Sources */,
 				D77243A0222DE528008920EF /* GameViewController.swift in Sources */,
 				D7724398222DE528008920EF /* AppDelegate.swift in Sources */,

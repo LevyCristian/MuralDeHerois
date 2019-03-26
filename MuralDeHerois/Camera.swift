@@ -1,10 +1,26 @@
-//
-//  Camera.swift
-//  MuralDeHerois
-//
-//  Created by Levy Cristian  on 04/03/19.
-//  Copyright © 2019 Levy Cristian . All rights reserved.
-//
+/*
+ Created by Levy Cristian  on 04/03/19.
+ Copyright © 2019 Levy Cristian . All rights reserved.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+*/
 
 import UIKit
 import SpriteKit
@@ -56,6 +72,20 @@ class Camera: SKCameraNode {
     /** Determina a posição inicial do toque quando o usuário faz o pinchGesture. */
     private var initialTouchLocation = CGPoint.zero
    
+     // MARK: Navegação
+    
+     /** Gesture para o navegação da câmera. */
+    private var swipeNavigation: UILongPressGestureRecognizer {
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.updatePosition(_:)))
+        longPressGestureRecognizer.numberOfTouchesRequired = 1
+        longPressGestureRecognizer.numberOfTapsRequired = 0
+        longPressGestureRecognizer.allowableMovement = 0
+        longPressGestureRecognizer.minimumPressDuration = 0
+        return longPressGestureRecognizer
+    }
+    
+    /** Ultima Localização do toque na tela. */
+    private var previousLocation: CGPoint!
     
     
     init(sceneView: SKView, cenario: SKNode) {
@@ -78,6 +108,8 @@ class Camera: SKCameraNode {
         //adiciona o gesture a view da câmera
         pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(self.updateScale(_:)))
         sceneView.addGestureRecognizer(pinchGestureRecognizer)
+        
+        sceneView.addGestureRecognizer(swipeNavigation)
         
     }
     
@@ -149,8 +181,8 @@ class Camera: SKCameraNode {
     
     /** Move a câmera pra uma posição checando seus limites. */
     func centerOnPosition(scenePosition: CGPoint) {
-        // verifica se a escala está nos parametros válidos e atribui o valor recebido a posição da câmera
-        if zoomScale > zoomRange.min && zoomScale < zoomRange.max {
+        // verifica se a escala está nos parametros válidos e atribui o valor recebido a posição da câmera(parte-2) e verifica se a ultima posição na tela não é nula(parte - 3)
+        if (zoomScale > zoomRange.min && zoomScale < zoomRange.max) || previousLocation != nil {
             position = scenePosition
             clampWorldNode()
         }
@@ -179,5 +211,28 @@ class Camera: SKCameraNode {
         }
         
         if recognizer.state == .ended { }
+    }
+    
+    // MARK: Navegação pela tela
+    
+    /** Move a câmera pelo cenário a partir de input proveniente do pinchGestureRecognizer.*/
+    @objc func updatePosition(_ recognizer: UILongPressGestureRecognizer) {
+        
+        if recognizer.state == .began {
+            //salva a posição inicial do toque como ultima
+            previousLocation = recognizer.location(in: recognizer.view)
+        }
+        
+        if recognizer.state == .changed {
+            
+            if previousLocation == nil { return }
+            
+            let location = recognizer.location(in: recognizer.view)
+            //cálcula o Δx e Δy da câmera
+            let difference = CGPoint(x: location.x - previousLocation.x, y: location.y - previousLocation.y)
+            //utiliza a função criada na postagem 2 para limitar a área do usuário
+            centerOnPosition(scenePosition: CGPoint(x: Int(position.x - difference.x), y: Int(position.y - -difference.y)))
+            previousLocation = location
+        }
     }
 }

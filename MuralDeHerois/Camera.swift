@@ -180,7 +180,7 @@ class Camera: SKCameraNode {
     func centerOnPosition(scenePosition: CGPoint) {
         // verifica se a escala está nos parametros válidos e atribui o valor recebido a posição da câmera(parte-2) e verifica se a ultima posição na tela não é nula(parte - 3)
         if (escalaZoom > intervaloZoom.min && escalaZoom < intervaloZoom.max) || ultimaPosicaoDoToque != nil {
-            position = scenePosition
+             position = scenePosition
             clampWorldNode()
         }
        

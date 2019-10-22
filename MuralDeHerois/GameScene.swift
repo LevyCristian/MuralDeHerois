@@ -37,10 +37,8 @@ class GameScene: SKScene {
         anchorPoint = CGPoint(x: 0, y:0)
         //setter do tamanho da GameScene para o tamanho do cenário [Item 3 do check-list]
         self.size = background.size
-        
         //atribui a câmera da cena a câmera customizada.
-        camera = cameraNode
-        
+        camera = cameraNode  
         addChild(background)
         addChild(cameraNode)
     }
